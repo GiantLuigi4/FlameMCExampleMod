@@ -1,15 +1,16 @@
 package entries.FlameMCExampleMod;
 
+import com.tfc.API.flame.FlameAPI;
+import com.tfc.API.flame.event.initsteps.RegistryStep;
 import com.tfc.API.flamemc.Registry;
 import com.tfc.API.flamemc.blocks.BlockInstancer;
 import com.tfc.API.flamemc.blocks.BlockPropeteries;
-import com.tfc.API.flamemc.items.BlockItem;
-import com.tfc.API.flamemc.items.ItemProperties;
 import com.tfc.flame.IFlameMod;
 
 public class Main implements IFlameMod {
 	@Override
 	public void preinit(String[] args) {
+		FlameAPI.instance.bus.register(RegistryStep.class, this::doRegistry);
 	}
 	
 	@Override
@@ -18,6 +19,9 @@ public class Main implements IFlameMod {
 	
 	@Override
 	public void init(String[] args) {
+	}
+	
+	public void doRegistry(RegistryStep event) {
 		//The name of the block
 		Registry.ResourceLocation location = new Registry.ResourceLocation("flame_example_mod:test");
 		//Register a generic block
