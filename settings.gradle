@@ -1,0 +1,3 @@
+//The name of your mod
+//The main class should be entries.[this].Main
+rootProject.name = 'FlameMCExampleMod'

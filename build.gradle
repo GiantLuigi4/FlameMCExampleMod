@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+//Up to you
+group 'com.tfc'
+//can be whatever, but empty is easiest as you don't need to constantly change the entry
+/** {@link entries.FlameMCExampleMod.Main} */
+//Edit, this has been changed in a newer version of the mod loader...
+//It now ignores all characters after a "-" in the file name.
+version '-1.0'
+
+//This is important.
+//This can be 1_8 or less, but it can't be higher
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    //Flame MC API
+    implementation 'com.github.GiantLuigi4:FlameAPI:df571901d1'
+    //Flame itself
+    implementation 'com.github.GiantLuigi4:FlameMC:eb350c1e01'
+}
