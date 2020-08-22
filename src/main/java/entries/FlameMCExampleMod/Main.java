@@ -1,7 +1,6 @@
 package entries.FlameMCExampleMod;
 
 import com.tfc.API.flame.FlameAPI;
-import com.tfc.API.flame.utils.logging.Logger;
 import com.tfc.API.flamemc.event.init_steps.RegistryStep;
 import com.tfc.API.flamemc.Registry;
 import com.tfc.API.flamemc.blocks.BlockInstancer;
