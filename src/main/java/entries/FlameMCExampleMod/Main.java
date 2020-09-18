@@ -1,10 +1,10 @@
 package entries.FlameMCExampleMod;
 
 import com.tfc.API.flame.FlameAPI;
+import com.tfc.API.flamemc.blocks.BlockProperties;
 import com.tfc.API.flamemc.event.init_steps.RegistryStep;
 import com.tfc.API.flamemc.Registry;
 import com.tfc.API.flamemc.blocks.BlockInstancer;
-import com.tfc.API.flamemc.blocks.BlockPropeteries;
 import com.tfc.API.flamemc.items.Item;
 import com.tfc.API.flamemc.items.ItemProperties;
 import com.tfc.flame.IFlameMod;
@@ -27,7 +27,11 @@ public class Main implements IFlameMod {
 		//The name of the block
 		Registry.ResourceLocation location = new Registry.ResourceLocation("flame_example_mod:test");
 		//Register a generic block
-		Registry.RegistryObject<?> block = Registry.register(location, Registry.RegistryType.BLOCK, BlockInstancer.instanceBlock(new BlockPropeteries(location, Registry.get(Registry.RegistryType.BLOCK, new Registry.ResourceLocation("minecraft:stone")))));
+		BlockProperties properties = new BlockProperties(
+				new Registry.ResourceLocation("flameapi:test"),
+				Registry.get(Registry.RegistryType.BLOCK, new Registry.ResourceLocation("minecraft:ice"))
+		);
+		Registry.RegistryObject<?> block = Registry.register(location, Registry.RegistryType.BLOCK, new ExampleBlock(location, properties).toRegisterable());
 		//Register an item for the generic block
 		Registry.registerBlockItem(location,block);
 		//The name of the item
