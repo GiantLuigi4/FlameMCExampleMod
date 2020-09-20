@@ -8,6 +8,7 @@ import com.tfc.API.flamemc.abstraction.CallInfo;
 import com.tfc.API.flamemc.blocks.Block;
 import com.tfc.API.flamemc.blocks.BlockProperties;
 import com.tfc.API.flamemc.world.BlockPos;
+import com.tfc.API.flamemc.world.World;
 import com.tfc.utils.ScanningUtils;
 import entries.FlameAPI.Main;
 
@@ -59,9 +60,12 @@ public class ExampleBlock extends Block {
 	@Override
 	public void onPlaced(CallInfo arguments) {
 		try {
-			Object world = arguments.get("world", Object.class);
-			BlockPos pos = arguments.get("pos", BlockPos.class);
-			reverse(world, pos);
+			if (!isCalled) {
+				World world = arguments.get("world", World.class);
+				BlockPos pos = arguments.get("pos", BlockPos.class);
+				reverse(world, pos);
+				isCalled = false;
+			}
 		} catch (Throwable err) {
 			Logger.logErrFull(err);
 			try {
@@ -70,33 +74,43 @@ public class ExampleBlock extends Block {
 				});
 			} catch (Throwable ignored) {
 			}
+			isCalled = false;
 		}
 	}
 	
-	public static void reverse(Object world, BlockPos pos) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-		Method getBlockState = world.getClass().getMethod("d_", Class.forName(ScanningUtils.toClassName(Main.getBlockPosClass())));
-		Method setBlockState = world.getClass().getMethod("a",
-				Class.forName(ScanningUtils.toClassName(Main.getBlockPosClass())),
-				Class.forName(ScanningUtils.toClassName(Main.getBlockStateClass()))
-		);
-		ArrayList<BlockPos> posesDone = new ArrayList<>();
-		for (int xO = -1; xO <= 1; xO++) {
-			for (int yO = -1; yO <= 1; yO++) {
-				if (!posesDone.contains(new BlockPos(Math.abs(xO), Math.abs(yO), Math.abs(0)))) {
-					Object o1 = getBlockState.invoke(world, pos.offset(xO, yO, 0).unwrap());
-					Object o2 = getBlockState.invoke(world, pos.offset(-xO, -yO, -0).unwrap());
-					setBlockState.invoke(world, pos.offset(-xO, -yO, -0).unwrap(), o1);
-					setBlockState.invoke(world, pos.offset(xO, yO, 0).unwrap(), o2);
-					posesDone.add(new BlockPos(-xO, -yO, -0));
+	@Override
+	public void onUpdated(CallInfo arguments) {
+		this.onPlaced(arguments);
+	}
+	
+	private static boolean isCalled = false;
+	
+	public static void reverse(World world, BlockPos pos) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+		try {
+			if (!isCalled) {
+				isCalled = true;
+				ArrayList<BlockPos> posesDone = new ArrayList<>();
+				for (int xO = -1; xO <= 1; xO++) {
+					for (int yO = -1; yO <= 1; yO++) {
+						if (!posesDone.contains(new BlockPos(Math.abs(xO), Math.abs(yO), Math.abs(0)))) {
+							Object o1 = world.getBlockState(pos.offset(xO, yO, 0));
+							Object o2 = world.getBlockState(pos.offset(-xO, -yO, -0));
+							world.setBlockState(pos.offset(-xO, -yO, -0), o1);
+							world.setBlockState(pos.offset(xO, yO, 0), o2);
+							posesDone.add(new BlockPos(-xO, -yO, -0));
+						}
+					}
 				}
+				int xO = 1;
+				int yO = -1;
+				Object o1 = world.getBlockState(pos.offset(xO, yO, 0));
+				Object o2 = world.getBlockState(pos.offset(-xO, -yO, -0));
+				world.setBlockState(pos.offset(-xO, -yO, -0), o1);
+				world.setBlockState(pos.offset(xO, yO, 0), o2);
 			}
+		} catch (Throwable ignored) {
+			isCalled = false;
 		}
-		int xO = 1;
-		int yO = -1;
-		Object o1 = getBlockState.invoke(world, pos.offset(xO, yO, 0).unwrap());
-		Object o2 = getBlockState.invoke(world, pos.offset(-xO, -yO, -0).unwrap());
-		setBlockState.invoke(world, pos.offset(-xO, -yO, -0).unwrap(), o1);
-		setBlockState.invoke(world, pos.offset(xO, yO, 0).unwrap(), o2);
 	}
 	
 	@Override
