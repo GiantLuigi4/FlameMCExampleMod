@@ -4,7 +4,6 @@ import com.tfc.API.flame.FlameAPI;
 import com.tfc.API.flamemc.blocks.BlockProperties;
 import com.tfc.API.flamemc.event.init_steps.RegistryStep;
 import com.tfc.API.flamemc.Registry;
-import com.tfc.API.flamemc.blocks.BlockInstancer;
 import com.tfc.API.flamemc.items.Item;
 import com.tfc.API.flamemc.items.ItemProperties;
 import com.tfc.flame.IFlameMod;

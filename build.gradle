@@ -23,7 +23,7 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     //Flame MC API
-    implementation 'com.github.GiantLuigi4:FlameAPI:222f87e763'
+    implementation 'com.github.GiantLuigi4:FlameAPI:2887907'
     //Flame itself
     implementation 'com.github.GiantLuigi4:FlameMC:eb350c1e01'
 }

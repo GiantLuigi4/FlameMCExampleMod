@@ -2,23 +2,18 @@ package entries.FlameMCExampleMod;
 
 import com.tfc.API.flame.utils.logging.Logger;
 import com.tfc.API.flame.utils.reflection.Fields;
-import com.tfc.API.flame.utils.reflection.Methods;
 import com.tfc.API.flamemc.Registry;
 import com.tfc.API.flamemc.abstraction.CallInfo;
 import com.tfc.API.flamemc.blocks.Block;
 import com.tfc.API.flamemc.blocks.BlockProperties;
 import com.tfc.API.flamemc.world.BlockPos;
 import com.tfc.API.flamemc.world.World;
-import com.tfc.utils.ScanningUtils;
 import entries.FlameAPI.Main;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ExampleBlock extends Block {
 	private final Registry.ResourceLocation location;
